@@ -5,16 +5,16 @@ stages:
     - src/features/build_features.py
 
   train:
-    cmd: python src/model/train.py 
+    cmd: python src/models/train_model.py 
     deps:
-    - src/model/train.py
+    - src/models/train_model.py
     - src/features/build_features.py
     
   evaluate:
-    cmd: python src/model/evaluate.py
+    cmd: python src/models/predict_model.py
     deps:
     - models/bike_model.h5
-    - src/model/evaluate.py
+    - src/models/predict_model.py
     - src/features/build_features.py
     outs:
     - reports/figures/prediction.png
