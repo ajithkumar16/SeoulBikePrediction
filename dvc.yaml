@@ -1,0 +1,24 @@
+stages:
+  prepare_data:
+    cmd: python src/features/build_features.py
+    deps:
+    - src/features/build_features.py
+
+  train:
+    cmd: python src/model/train.py 
+    deps:
+    - src/model/train.py
+    - src/features/build_features.py
+    
+  evaluate:
+    cmd: python src/model/evaluate.py
+    deps:
+    - models/bike_model.h5
+    - src/model/evaluate.py
+    - src/features/build_features.py
+    outs:
+    - reports/figures/prediction.png
+   
+    metrics:
+    - reports/score.json:
+        cache: false
