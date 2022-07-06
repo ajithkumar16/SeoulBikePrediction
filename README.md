@@ -24,7 +24,7 @@ Project Organization
     │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.(has SeoulBikeData.csv)
+    │   └── raw            <- The original, immutable data dump.(has SeoulBikeData.csv, dataset for the project)
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
@@ -60,24 +60,29 @@ Project Organization
     │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
     │       └── visualize.py
     │
+    ├── dvc.yaml           <- file has the dvc pipeline. (In our code the pipeline has 3 stages) 
+    │
+    ├── app.py             <- Entry point for web app deployment code.
+    │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
     
     
-    dvc.yaml file has the dvc pipeline.
-    app.py Entry point for web app deployment code.
- 
  *Have written in (), what each file contains for the project.
- 
+ Haven't removed default folders from cookiecutter template, they can be used in future.
 DVC Pipeline 
 ------------
  The DVC pipeline has 3 stages for preparing the data, training the model and evaluating it.
+ The prepare data stage uses prep_data (build_features.py) to extract data and does feature engineering. cyclic transformation, scaling and encoding is done to the data, new columns are extracted from the date field.
+ The train stage, trains the model in train_model.py, has used basic linear regression, we can change the model and correcponding parameters here.
+ Evaluate stage - It does prediction with the trained model and evaluate it with the test data.
+ 
  ![azure_sample](https://user-images.githubusercontent.com/6350912/177523625-436b71b5-4619-457f-b7e2-29a18110c83c.PNG)
 
 CML
 ------------
  CML Github action workflow is created and it is triggered on every push.
  It creates a docker instances, install dependencies and execute the dvc stages.
- The report of the execution is kept in reports folder.
+ The report of the execution is kept in reports folder (It includes both metrics of the model and the prediction figure)
  ![prediction](https://user-images.githubusercontent.com/6350912/177524415-6a4afc2b-4c36-4a8a-9ffa-6f877e758bf5.png)
  
 Cloud Deployment(Azure)
